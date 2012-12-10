@@ -7,7 +7,7 @@ package controleurs;
 import java.util.List;
 import javax.swing.JOptionPane;
 import modele.dao.DaoException;
-import modele.dao.DaoMySql;
+import modele.dao.DaoOracle;
 import vues.VueAccueil;
 
 /**
@@ -17,11 +17,11 @@ import vues.VueAccueil;
 public class CtrlAccueil implements IControleur {
 
     VueAccueil VueAccueil = null;
-    DaoMySql dao = null;
+    DaoOracle dao = null;
 
     public CtrlAccueil() {
         // Ouvrir une connexion JDBC vers la base de données visée
-        dao = new DaoMySql("GSB", "GSB", "GSB");
+        dao = new DaoOracle("GSB", "GSB", "GSB");
         try {
             dao.connecter();
             // initialiser l'interface graphique
