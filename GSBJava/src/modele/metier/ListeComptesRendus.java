@@ -2,12 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package controleurs;
+package modele.metier;
+
+import java.util.HashMap;
 
 /**
  *
  * @author btssio
  */
-public interface IControleur {
+class ListeComptesRendus extends HashMap<Visiteur,ComptesRendus>{
     
 }

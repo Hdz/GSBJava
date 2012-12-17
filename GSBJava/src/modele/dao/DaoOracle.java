@@ -11,7 +11,7 @@ package modele.dao;
 public class DaoOracle extends Dao{
 
     public DaoOracle(String nomBd, String loginBd, String mdpBd) {
-        super("oracle.jdbc.driver.OracleDriver", "jdbc:oracle:thin://localhost/"+nomBd, loginBd, mdpBd);
+        super("oracle.jdbc.driver.OracleDriver", "jdbc:oracle:thin:localhost/GSB@//localhost:1521/xe", loginBd, mdpBd);
     }
     
 }

@@ -1,8 +1,7 @@
 package modele.dao;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import modele.metier.Visiteur;
 
 /**
  *
@@ -16,6 +15,9 @@ public abstract class Dao {
     private String loginBd;
     private String mdpBd;
     private Connection cnx;
+    
+    private PreparedStatement pstmtLireUnRapport;
+    private PreparedStatement pstmtLireUnVisiteur;
    
 
     public Dao(String piloteJdbc, String urlBd, String loginBd, String mdpBd) {
@@ -29,6 +31,11 @@ public abstract class Dao {
         try {
             Class.forName(piloteJdbc);
             cnx = DriverManager.getConnection(urlBd, loginBd, mdpBd);
+            
+            pstmtLireUnRapport = cnx.prepareStatement(
+                    "SELECT * FROM RAPPORT_VISITE WHERE VIS_MATRICULE=?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            
+            pstmtLireUnVisiteur = cnx.prepareStatement("SELECT * FROM VISITEUR WHERE VIS_MATRICULE=?");
            
         } catch (SQLException ex) {
             throw new DaoException("DAO - connecter : pb de connexion\n" + ex.getMessage());
@@ -45,5 +52,30 @@ public abstract class Dao {
         }
     }
     
+    public Visiteur lireUnVisiteur(int id) throws DaoException {
+        try {
+            Visiteur visiteur = null;
+            pstmtLireUnVisiteur.setInt(1, id);
+            ResultSet rs = pstmtLireUnVisiteur.executeQuery();
+            if (rs.next()) {
+                visiteur = chargerUnEnregistrementVisiteur(rs);
+            }
+            return visiteur;
+        } catch (SQLException ex) {
+            throw new DaoException("DAO - lireUnVisiteur : pb JDBC\n" + ex.getMessage());
+        }
+    }
     
+    private Visiteur chargerUnEnregistrementVisiteur(ResultSet rs) throws DaoException {
+        try {
+            Visiteur visiteur = new Visiteur();
+            visiteur.setNom(rs.getString("VIS_NOM"));
+            visiteur.setPrenom(rs.getString("VIS_PRENOM"));
+            visiteur.setAdresse(rs.getString("VIS_ADRESSE"));
+            
+            return visiteur;
+        } catch (SQLException ex) {
+            throw new DaoException("DAO - chargerUnEnregistrementVisiteur : pb JDBC\n" + ex.getMessage());
+        }
+    }
 }
