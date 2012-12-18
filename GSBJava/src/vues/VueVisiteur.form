@@ -22,75 +22,101 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="400" max="32767" attributes="0"/>
-          <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jLabelVille" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabelAdresse" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                  <Component id="jLabelRechercher" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabelNom" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabelPrenom" alignment="1" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jTextFieldNom" alignment="1" max="32767" attributes="0"/>
-                              <Component id="jTextFieldAdresse" alignment="0" max="32767" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jTextFieldCP" min="-2" pref="64" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jTextFieldVille" max="32767" attributes="0"/>
-                              </Group>
-                              <Component id="jTextFieldRechercher" alignment="0" min="-2" pref="193" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace pref="48" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
+              <EmptySpace pref="36" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="jComboBoxRechercherVisiteur" min="-2" pref="191" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jLabelSecteur" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelVille" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelAdresse" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelNom" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelPrenom" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelLabo" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace pref="295" max="-2" attributes="0"/>
-                          <Component id="jButtonAnnuler" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="jButtonAnnuler" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="jTextFieldSecteur" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldLabo" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldNom" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldAdresse" alignment="0" max="32767" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jTextFieldCP" min="-2" pref="64" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jTextFieldVille" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Component id="jTextFieldPrenom" alignment="1" pref="193" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
-                  <EmptySpace pref="19" max="32767" attributes="0"/>
+              </Group>
+          </Group>
+          <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                  <Component id="jLabelRechercher" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="281" max="32767" attributes="0"/>
               </Group>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="328" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jComboBoxRechercherVisiteur" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabelNom" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTextFieldNom" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabelPrenom" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTextFieldPrenom" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabelAdresse" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTextFieldAdresse" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabelVille" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTextFieldCP" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTextFieldVille" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabelLabo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTextFieldLabo" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabelSecteur" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTextFieldSecteur" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="43" max="32767" attributes="0"/>
+              <Component id="jButtonAnnuler" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabelRechercher" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabelNom" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextFieldNom" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabelPrenom" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextFieldRechercher" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabelAdresse" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextFieldAdresse" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabelVille" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextFieldCP" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextFieldVille" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace pref="35" max="32767" attributes="0"/>
-                  <Component id="jButtonAnnuler" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace pref="354" max="32767" attributes="0"/>
               </Group>
           </Group>
       </Group>
@@ -102,9 +128,9 @@
         <Property name="text" type="java.lang.String" value="Rechercher"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextFieldRechercher">
+    <Component class="javax.swing.JTextField" name="jTextFieldPrenom">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldRechercherActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldPrenomActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelNom">
@@ -142,6 +168,30 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAnnulerActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="jComboBoxRechercherVisiteur">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxRechercherVisiteurActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabelLabo">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Labo :"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabelSecteur">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Secteur :"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jTextFieldLabo">
+    </Component>
+    <Component class="javax.swing.JTextField" name="jTextFieldSecteur">
     </Component>
   </SubComponents>
 </Form>

@@ -1,7 +1,10 @@
 package modele.dao;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import modele.metier.Visiteur;
+import vues.VueVisiteur;
 
 /**
  *
@@ -18,6 +21,7 @@ public abstract class Dao {
     
     private PreparedStatement pstmtLireUnRapport;
     private PreparedStatement pstmtLireUnVisiteur;
+    private PreparedStatement pstmtlireTousLesVisiteurs;
    
 
     public Dao(String piloteJdbc, String urlBd, String loginBd, String mdpBd) {
@@ -36,6 +40,7 @@ public abstract class Dao {
                     "SELECT * FROM RAPPORT_VISITE WHERE VIS_MATRICULE=?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             
             pstmtLireUnVisiteur = cnx.prepareStatement("SELECT * FROM VISITEUR WHERE VIS_MATRICULE=?");
+            pstmtlireTousLesVisiteurs = cnx.prepareStatement("SELECT * FROM VISITEUR", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
            
         } catch (SQLException ex) {
             throw new DaoException("DAO - connecter : pb de connexion\n" + ex.getMessage());
@@ -52,10 +57,10 @@ public abstract class Dao {
         }
     }
     
-    public Visiteur lireUnVisiteur(int id) throws DaoException {
+    public Visiteur lireUnVisiteur(String matricule) throws DaoException {
         try {
             Visiteur visiteur = null;
-            pstmtLireUnVisiteur.setInt(1, id);
+            pstmtLireUnVisiteur.setString(1, matricule);
             ResultSet rs = pstmtLireUnVisiteur.executeQuery();
             if (rs.next()) {
                 visiteur = chargerUnEnregistrementVisiteur(rs);
@@ -66,13 +71,35 @@ public abstract class Dao {
         }
     }
     
+            
+    public List<Visiteur> lireTousLesVisiteurs() throws DaoException{
+        try {
+            List<Visiteur> desVisiteurs = new ArrayList<Visiteur>();
+            ResultSet rs = pstmtlireTousLesVisiteurs.executeQuery();
+            while (rs.next()) {
+                Visiteur unVisiteur = chargerUnEnregistrementVisiteur(rs);
+                desVisiteurs.add(unVisiteur);
+            }            
+            return desVisiteurs;
+        } catch (SQLException ex) {
+            throw new DaoException("DAO - lireTousLesVisiteurs : pb JDBC\n" + ex.getMessage());
+        }
+    }
+    
     private Visiteur chargerUnEnregistrementVisiteur(ResultSet rs) throws DaoException {
         try {
+            
             Visiteur visiteur = new Visiteur();
+            visiteur.setMatricule(rs.getString("VIS_MATRICULE"));
             visiteur.setNom(rs.getString("VIS_NOM"));
             visiteur.setPrenom(rs.getString("VIS_PRENOM"));
             visiteur.setAdresse(rs.getString("VIS_ADRESSE"));
-            
+            visiteur.setVille(rs.getString("VIS_VILLE"));
+            visiteur.setCp(rs.getString("VIS_CP"));
+            visiteur.setDateEmbauche(rs.getString("VIS_DATEEMBAUCHE"));
+            visiteur.setCodeLabo(rs.getString("LAB_CODE"));
+            visiteur.setCodeSecteur(rs.getString("SEC_CODE"));
+                        
             return visiteur;
         } catch (SQLException ex) {
             throw new DaoException("DAO - chargerUnEnregistrementVisiteur : pb JDBC\n" + ex.getMessage());

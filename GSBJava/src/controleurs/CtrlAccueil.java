@@ -37,7 +37,7 @@ public class CtrlAccueil extends Controleur {
     }
     
 
-    public void afficherVisiteur(){
+    public void afficherVisiteur() throws DaoException{
         if (ctrlVisiteur == null){
             ctrlVisiteur = new CtrlVisiteur(this);
         }else{
@@ -46,6 +46,4 @@ public class CtrlAccueil extends Controleur {
         this.cacherVue();
     }
     
-    
-
 }

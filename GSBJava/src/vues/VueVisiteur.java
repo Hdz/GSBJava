@@ -5,13 +5,22 @@
 package vues;
 import controleurs.CtrlVisiteur;
 import controleurs.Controleur;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import modele.dao.DaoException;
 
 /**
  *
  * @author btssio
  */
 public class VueVisiteur extends VueAbstraite {
+    
+    DefaultComboBoxModel modeleJComboBoxRechercherVisiteur;
 
     /**
      * Creates new form VueVisiteur
@@ -19,6 +28,8 @@ public class VueVisiteur extends VueAbstraite {
     public VueVisiteur(Controleur ctrl) {
         super(ctrl);
         initComponents();
+        modeleJComboBoxRechercherVisiteur= new DefaultComboBoxModel();
+        jComboBoxRechercherVisiteur.setModel(modeleJComboBoxRechercherVisiteur);
     }
 
     /**
@@ -32,7 +43,7 @@ public class VueVisiteur extends VueAbstraite {
     private void initComponents() {
 
         jLabelRechercher = new javax.swing.JLabel();
-        jTextFieldRechercher = new javax.swing.JTextField();
+        jTextFieldPrenom = new javax.swing.JTextField();
         jLabelNom = new javax.swing.JLabel();
         jTextFieldNom = new javax.swing.JTextField();
         jLabelPrenom = new javax.swing.JLabel();
@@ -42,14 +53,19 @@ public class VueVisiteur extends VueAbstraite {
         jTextFieldCP = new javax.swing.JTextField();
         jTextFieldVille = new javax.swing.JTextField();
         jButtonAnnuler = new javax.swing.JButton();
+        jComboBoxRechercherVisiteur = new javax.swing.JComboBox();
+        jLabelLabo = new javax.swing.JLabel();
+        jLabelSecteur = new javax.swing.JLabel();
+        jTextFieldLabo = new javax.swing.JTextField();
+        jTextFieldSecteur = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabelRechercher.setText("Rechercher");
 
-        jTextFieldRechercher.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldPrenom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldRechercherActionPerformed(evt);
+                jTextFieldPrenomActionPerformed(evt);
             }
         });
 
@@ -68,89 +84,277 @@ public class VueVisiteur extends VueAbstraite {
             }
         });
 
+        jComboBoxRechercherVisiteur.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxRechercherVisiteurActionPerformed(evt);
+            }
+        });
+
+        jLabelLabo.setText("Labo :");
+
+        jLabelSecteur.setText("Secteur :");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(36, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jComboBoxRechercherVisiteur, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(72, 72, 72))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabelSecteur)
+                            .addComponent(jLabelVille)
+                            .addComponent(jLabelAdresse)
+                            .addComponent(jLabelNom)
+                            .addComponent(jLabelPrenom)
+                            .addComponent(jLabelLabo))
+                        .addGap(40, 40, 40)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jButtonAnnuler)
+                                .addContainerGap())
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jTextFieldSecteur)
+                                    .addComponent(jTextFieldLabo)
+                                    .addComponent(jTextFieldNom)
+                                    .addComponent(jTextFieldAdresse, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jTextFieldCP, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTextFieldVille))
+                                    .addComponent(jTextFieldPrenom, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))
+                                .addGap(68, 68, 68))))))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(19, 19, 19)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabelVille)
-                                .addComponent(jLabelAdresse)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelRechercher)
-                                    .addComponent(jLabelNom, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabelPrenom, javax.swing.GroupLayout.Alignment.TRAILING)))
-                            .addGap(40, 40, 40)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextFieldNom, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jTextFieldAdresse)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jTextFieldCP, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextFieldVille))
-                                .addComponent(jTextFieldRechercher, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonAnnuler)))
-                    .addContainerGap(19, Short.MAX_VALUE)))
+                    .addGap(38, 38, 38)
+                    .addComponent(jLabelRechercher)
+                    .addContainerGap(281, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 328, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jComboBoxRechercherVisiteur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelNom)
+                    .addComponent(jTextFieldNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelPrenom)
+                    .addComponent(jTextFieldPrenom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelAdresse)
+                    .addComponent(jTextFieldAdresse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelVille)
+                    .addComponent(jTextFieldCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldVille, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelLabo)
+                    .addComponent(jTextFieldLabo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelSecteur)
+                    .addComponent(jTextFieldSecteur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addComponent(jButtonAnnuler)
+                .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jLabelRechercher)
-                    .addGap(61, 61, 61)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabelNom)
-                        .addComponent(jTextFieldNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(18, 18, 18)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabelPrenom)
-                        .addComponent(jTextFieldRechercher, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(18, 18, 18)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabelAdresse)
-                        .addComponent(jTextFieldAdresse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(18, 18, 18)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabelVille)
-                        .addComponent(jTextFieldCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextFieldVille, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                    .addComponent(jButtonAnnuler)
-                    .addContainerGap()))
+                    .addContainerGap(354, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextFieldRechercherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldRechercherActionPerformed
+    private void jTextFieldPrenomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPrenomActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldRechercherActionPerformed
+    }//GEN-LAST:event_jTextFieldPrenomActionPerformed
 
     private void jButtonAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnnulerActionPerformed
         ((CtrlVisiteur)controleur).visiteurAnnuler();
     }//GEN-LAST:event_jButtonAnnulerActionPerformed
 
+    private void jComboBoxRechercherVisiteurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxRechercherVisiteurActionPerformed
+        try {
+            ((CtrlVisiteur)controleur).chargerDonneesVisiteur(modeleJComboBoxRechercherVisiteur.getSelectedItem().toString());
+        } catch (DaoException ex) {
+            Logger.getLogger(VueVisiteur.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jComboBoxRechercherVisiteurActionPerformed
+    
+    public DefaultComboBoxModel getModeleJComboBoxRechercherVisiteur() {
+        return modeleJComboBoxRechercherVisiteur;
+    }
+
+    public void setModeleJComboBoxRechercherVisiteur(DefaultComboBoxModel modeleJComboBoxRechercherVisiteur) {
+        this.modeleJComboBoxRechercherVisiteur = modeleJComboBoxRechercherVisiteur;
+    }
+
+    public JButton getjButtonAnnuler() {
+        return jButtonAnnuler;
+    }
+
+    public void setjButtonAnnuler(JButton jButtonAnnuler) {
+        this.jButtonAnnuler = jButtonAnnuler;
+    }
+
+    public JComboBox getjComboBoxRechercherVisiteur() {
+        return jComboBoxRechercherVisiteur;
+    }
+
+    public void setjComboBoxRechercherVisiteur(JComboBox jComboBoxRechercherVisiteur) {
+        this.jComboBoxRechercherVisiteur = jComboBoxRechercherVisiteur;
+    }
+
+    public JLabel getjLabelAdresse() {
+        return jLabelAdresse;
+    }
+
+    public void setjLabelAdresse(JLabel jLabelAdresse) {
+        this.jLabelAdresse = jLabelAdresse;
+    }
+
+    public JLabel getjLabelNom() {
+        return jLabelNom;
+    }
+
+    public void setjLabelNom(JLabel jLabelNom) {
+        this.jLabelNom = jLabelNom;
+    }
+
+    public JLabel getjLabelPrenom() {
+        return jLabelPrenom;
+    }
+
+    public void setjLabelPrenom(JLabel jLabelPrenom) {
+        this.jLabelPrenom = jLabelPrenom;
+    }
+
+    public JLabel getjLabelRechercher() {
+        return jLabelRechercher;
+    }
+
+    public void setjLabelRechercher(JLabel jLabelRechercher) {
+        this.jLabelRechercher = jLabelRechercher;
+    }
+
+    public JLabel getjLabelVille() {
+        return jLabelVille;
+    }
+
+    public void setjLabelVille(JLabel jLabelVille) {
+        this.jLabelVille = jLabelVille;
+    }
+
+    public JTextField getjTextFieldAdresse() {
+        return jTextFieldAdresse;
+    }
+
+    public void setjTextFieldAdresse(JTextField jTextFieldAdresse) {
+        this.jTextFieldAdresse = jTextFieldAdresse;
+    }
+
+    public JTextField getjTextFieldCP() {
+        return jTextFieldCP;
+    }
+
+    public void setjTextFieldCP(JTextField jTextFieldCP) {
+        this.jTextFieldCP = jTextFieldCP;
+    }
+
+    public JTextField getjTextFieldNom() {
+        return jTextFieldNom;
+    }
+
+    public void setjTextFieldNom(JTextField jTextFieldNom) {
+        this.jTextFieldNom = jTextFieldNom;
+    }
+
+    public JTextField getjTextFieldRechercher() {
+        return jTextFieldPrenom;
+    }
+
+    public void setjTextFieldRechercher(JTextField jTextFieldRechercher) {
+        this.jTextFieldPrenom = jTextFieldRechercher;
+    }
+
+    public JTextField getjTextFieldVille() {
+        return jTextFieldVille;
+    }
+
+    public void setjTextFieldVille(JTextField jTextFieldVille) {
+        this.jTextFieldVille = jTextFieldVille;
+    }
+
+    public JTextField getjTextFieldPrenom() {
+        return jTextFieldPrenom;
+    }
+
+    public void setjTextFieldPrenom(JTextField jTextFieldPrenom) {
+        this.jTextFieldPrenom = jTextFieldPrenom;
+    }
+
+    public JLabel getjLabelLabo() {
+        return jLabelLabo;
+    }
+
+    public void setjLabelLabo(JLabel jLabelLabo) {
+        this.jLabelLabo = jLabelLabo;
+    }
+
+    public JLabel getjLabelSecteur() {
+        return jLabelSecteur;
+    }
+
+    public void setjLabelSecteur(JLabel jLabelSecteur) {
+        this.jLabelSecteur = jLabelSecteur;
+    }
+
+    public JTextField getjTextFieldLabo() {
+        return jTextFieldLabo;
+    }
+
+    public void setjTextFieldLabo(JTextField jTextFieldLabo) {
+        this.jTextFieldLabo = jTextFieldLabo;
+    }
+
+    public JTextField getjTextFieldSecteur() {
+        return jTextFieldSecteur;
+    }
+
+    public void setjTextFieldSecteur(JTextField jTextFieldSecteur) {
+        this.jTextFieldSecteur = jTextFieldSecteur;
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAnnuler;
+    private javax.swing.JComboBox jComboBoxRechercherVisiteur;
     private javax.swing.JLabel jLabelAdresse;
+    private javax.swing.JLabel jLabelLabo;
     private javax.swing.JLabel jLabelNom;
     private javax.swing.JLabel jLabelPrenom;
     private javax.swing.JLabel jLabelRechercher;
+    private javax.swing.JLabel jLabelSecteur;
     private javax.swing.JLabel jLabelVille;
     private javax.swing.JTextField jTextFieldAdresse;
     private javax.swing.JTextField jTextFieldCP;
+    private javax.swing.JTextField jTextFieldLabo;
     private javax.swing.JTextField jTextFieldNom;
-    private javax.swing.JTextField jTextFieldRechercher;
+    private javax.swing.JTextField jTextFieldPrenom;
+    private javax.swing.JTextField jTextFieldSecteur;
     private javax.swing.JTextField jTextFieldVille;
     // End of variables declaration//GEN-END:variables
 }

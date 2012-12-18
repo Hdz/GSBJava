@@ -14,8 +14,11 @@ public class Visiteur {
     private String nom;
     private String prenom;
     private String adresse;
+    private String cp;
     private String ville;
-    private Jour dateEmbauche;
+    private String dateEmbauche;
+    private String codeSecteur;
+    private String codeLabo;
     private ListeComptesRendus lesComptesRendus;
     
     public Visiteur() {
@@ -24,16 +27,22 @@ public class Visiteur {
         this.prenom = "";
         this.adresse = "";
         this.ville = "";
+        this.dateEmbauche ="";
+        this.codeLabo = "";
+        this.codeSecteur ="";
         lesComptesRendus = new ListeComptesRendus();
     }
 
-    public Visiteur(String matricule, String nom, String prenom, String adresse, String ville, Jour dateEmbauche, ListeComptesRendus lesComptesRendus) {
+    public Visiteur(String matricule, String nom, String prenom, String adresse, String cp, String ville, String dateEmbauche, String codeSecteur, String codeLabo, ListeComptesRendus lesComptesRendus) {
         this.matricule = matricule;
         this.nom = nom;
         this.prenom = prenom;
         this.adresse = adresse;
+        this.cp = cp;
         this.ville = ville;
         this.dateEmbauche = dateEmbauche;
+        this.codeSecteur = codeSecteur;
+        this.codeLabo = codeLabo;
         this.lesComptesRendus = lesComptesRendus;
     }
 
@@ -77,11 +86,11 @@ public class Visiteur {
         this.ville = ville;
     }
 
-    public Jour getDateEmbauche() {
+    public String getDateEmbauche() {
         return dateEmbauche;
     }
 
-    public void setDateEmbauche(Jour dateEmbauche) {
+    public void setDateEmbauche(String dateEmbauche) {
         this.dateEmbauche = dateEmbauche;
     }
 
@@ -91,6 +100,30 @@ public class Visiteur {
 
     public void setLesComptesRendus(ListeComptesRendus lesComptesRendus) {
         this.lesComptesRendus = lesComptesRendus;
+    }
+
+    public String getCp() {
+        return cp;
+    }
+
+    public void setCp(String cp) {
+        this.cp = cp;
+    }
+
+    public String getCodeSecteur() {
+        return codeSecteur;
+    }
+
+    public void setCodeSecteur(String codeSecteur) {
+        this.codeSecteur = codeSecteur;
+    }
+
+    public String getCodeLabo() {
+        return codeLabo;
+    }
+
+    public void setCodeLabo(String codeLabo) {
+        this.codeLabo = codeLabo;
     }
 
     

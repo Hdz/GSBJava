@@ -7,6 +7,9 @@ package vues;
 import controleurs.Controleur;
 import javax.swing.DefaultComboBoxModel;
 import controleurs.CtrlAccueil;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import modele.dao.DaoException;
 
 
 /**
@@ -89,7 +92,11 @@ public class VueAccueil extends VueAbstraite {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonVisiteursActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVisiteursActionPerformed
-        ((CtrlAccueil)controleur).afficherVisiteur();
+        try {
+            ((CtrlAccueil)controleur).afficherVisiteur();
+        } catch (DaoException ex) {
+            Logger.getLogger(VueAccueil.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButtonVisiteursActionPerformed
 
 

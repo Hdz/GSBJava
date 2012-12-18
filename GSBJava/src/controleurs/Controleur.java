@@ -13,7 +13,7 @@ import vues.VueAbstraite;
 public class Controleur {
     
     private Controleur ctrl;
-    private VueAbstraite vue;
+    protected VueAbstraite vue;
 
     public Controleur(Controleur ctrl) {
         this.ctrl = ctrl;
