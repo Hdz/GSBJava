@@ -10,6 +10,6 @@ import java.util.HashMap;
  *
  * @author btssio
  */
-class ListeComptesRendus extends HashMap<Visiteur,ComptesRendus>{
+class ListeComptesRendus extends HashMap<Visiteur,Rapport>{
     
 }

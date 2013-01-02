@@ -3,8 +3,8 @@
  * and open the template in the editor.
  */
 package vues;
-import controleurs.CtrlVisiteur;
 import controleurs.Controleur;
+import controleurs.CtrlVisiteur;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -13,6 +13,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import modele.dao.DaoException;
+import modele.metier.Visiteur;
 
 /**
  *
@@ -30,6 +31,7 @@ public class VueVisiteur extends VueAbstraite {
         initComponents();
         modeleJComboBoxRechercherVisiteur= new DefaultComboBoxModel();
         jComboBoxRechercherVisiteur.setModel(modeleJComboBoxRechercherVisiteur);
+        
     }
 
     /**
@@ -58,11 +60,14 @@ public class VueVisiteur extends VueAbstraite {
         jLabelSecteur = new javax.swing.JLabel();
         jTextFieldLabo = new javax.swing.JTextField();
         jTextFieldSecteur = new javax.swing.JTextField();
+        jButtonPrecedent = new javax.swing.JButton();
+        jButtonSuivant = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabelRechercher.setText("Rechercher");
 
+        jTextFieldPrenom.setEditable(false);
         jTextFieldPrenom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldPrenomActionPerformed(evt);
@@ -71,11 +76,19 @@ public class VueVisiteur extends VueAbstraite {
 
         jLabelNom.setText("Nom :");
 
+        jTextFieldNom.setEditable(false);
+
         jLabelPrenom.setText("Prénom :");
 
         jLabelAdresse.setText("Adresse :");
 
+        jTextFieldAdresse.setEditable(false);
+
         jLabelVille.setText("Ville :");
+
+        jTextFieldCP.setEditable(false);
+
+        jTextFieldVille.setEditable(false);
 
         jButtonAnnuler.setText("Annuler");
         jButtonAnnuler.addActionListener(new java.awt.event.ActionListener() {
@@ -94,12 +107,30 @@ public class VueVisiteur extends VueAbstraite {
 
         jLabelSecteur.setText("Secteur :");
 
+        jTextFieldLabo.setEditable(false);
+
+        jTextFieldSecteur.setEditable(false);
+
+        jButtonPrecedent.setText("Précédent");
+        jButtonPrecedent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPrecedentActionPerformed(evt);
+            }
+        });
+
+        jButtonSuivant.setText("Suivant");
+        jButtonSuivant.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSuivantActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(36, Short.MAX_VALUE)
+                .addContainerGap(19, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jComboBoxRechercherVisiteur, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -111,29 +142,35 @@ public class VueVisiteur extends VueAbstraite {
                             .addComponent(jLabelAdresse)
                             .addComponent(jLabelNom)
                             .addComponent(jLabelPrenom)
-                            .addComponent(jLabelLabo))
-                        .addGap(40, 40, 40)
+                            .addComponent(jLabelLabo)
+                            .addComponent(jButtonPrecedent))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButtonAnnuler)
-                                .addContainerGap())
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jTextFieldSecteur)
-                                    .addComponent(jTextFieldLabo)
-                                    .addComponent(jTextFieldNom)
-                                    .addComponent(jTextFieldAdresse, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(jTextFieldCP, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextFieldVille))
-                                    .addComponent(jTextFieldPrenom, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))
-                                .addGap(68, 68, 68))))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(40, 40, 40)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jButtonAnnuler)
+                                        .addContainerGap())
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(jTextFieldSecteur)
+                                            .addComponent(jTextFieldLabo)
+                                            .addComponent(jTextFieldNom)
+                                            .addComponent(jTextFieldAdresse, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addComponent(jTextFieldCP, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jTextFieldVille))
+                                            .addComponent(jTextFieldPrenom, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))
+                                        .addGap(68, 68, 68))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonSuivant))))))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(38, 38, 38)
                     .addComponent(jLabelRechercher)
-                    .addContainerGap(281, Short.MAX_VALUE)))
+                    .addContainerGap(287, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,14 +202,18 @@ public class VueVisiteur extends VueAbstraite {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelSecteur)
                     .addComponent(jTextFieldSecteur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonPrecedent)
+                    .addComponent(jButtonSuivant))
+                .addGap(48, 48, 48)
                 .addComponent(jButtonAnnuler)
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jLabelRechercher)
-                    .addContainerGap(354, Short.MAX_VALUE)))
+                    .addContainerGap(443, Short.MAX_VALUE)))
         );
 
         pack();
@@ -187,12 +228,29 @@ public class VueVisiteur extends VueAbstraite {
     }//GEN-LAST:event_jButtonAnnulerActionPerformed
 
     private void jComboBoxRechercherVisiteurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxRechercherVisiteurActionPerformed
+        
+        
         try {
-            ((CtrlVisiteur)controleur).chargerDonneesVisiteur(modeleJComboBoxRechercherVisiteur.getSelectedItem().toString());
+            
+            ((CtrlVisiteur)controleur).chargerDonneesVisiteur(jComboBoxRechercherVisiteur.getSelectedItem().toString());
+            
         } catch (DaoException ex) {
             Logger.getLogger(VueVisiteur.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jComboBoxRechercherVisiteurActionPerformed
+
+    private void jButtonPrecedentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPrecedentActionPerformed
+        
+    }//GEN-LAST:event_jButtonPrecedentActionPerformed
+
+    private void jButtonSuivantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSuivantActionPerformed
+        try {
+            ((CtrlVisiteur)controleur).chargerVisiteurSuivant();
+            
+        } catch (DaoException ex) {
+            Logger.getLogger(VueVisiteur.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButtonSuivantActionPerformed
     
     public DefaultComboBoxModel getModeleJComboBoxRechercherVisiteur() {
         return modeleJComboBoxRechercherVisiteur;
@@ -341,6 +399,8 @@ public class VueVisiteur extends VueAbstraite {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAnnuler;
+    private javax.swing.JButton jButtonPrecedent;
+    private javax.swing.JButton jButtonSuivant;
     private javax.swing.JComboBox jComboBoxRechercherVisiteur;
     private javax.swing.JLabel jLabelAdresse;
     private javax.swing.JLabel jLabelLabo;

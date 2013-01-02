@@ -11,20 +11,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import modele.dao.DaoException;
 
-
-/**
- *
- * @author btssio
- */
 public class VueAccueil extends VueAbstraite {
 
-    /**
-     * Creates new form VueAccueil
-     */
     DefaultComboBoxModel modeleJComboBoxAccueil;
 
-      
-    /** Creates new form VuePresence */
+
     public VueAccueil(Controleur ctrl) {
         super(ctrl);
         initComponents();
@@ -49,6 +40,11 @@ public class VueAccueil extends VueAbstraite {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButtonComptesRendus.setText("Comptes rendus");
+        jButtonComptesRendus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonComptesRendusActionPerformed(evt);
+            }
+        });
 
         jButtonVisiteurs.setText("Visiteurs");
         jButtonVisiteurs.addActionListener(new java.awt.event.ActionListener() {
@@ -98,6 +94,14 @@ public class VueAccueil extends VueAbstraite {
             Logger.getLogger(VueAccueil.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButtonVisiteursActionPerformed
+
+    private void jButtonComptesRendusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonComptesRendusActionPerformed
+        try {
+            ((CtrlAccueil)controleur).afficherRapport();
+        } catch (DaoException ex) {
+            Logger.getLogger(VueAccueil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButtonComptesRendusActionPerformed
 
 
     

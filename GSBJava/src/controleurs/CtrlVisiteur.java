@@ -51,6 +51,18 @@ public class CtrlVisiteur extends Controleur{
         }
     }
     
+    public void chargerVisiteurSuivant() throws DaoException{
+        Visiteur unVisiteur = dao.lireVisiteurSuivant();
+        
+        ((VueVisiteur)vue).getjTextFieldAdresse().setText(unVisiteur.getAdresse());
+        ((VueVisiteur)vue).getjTextFieldCP().setText(unVisiteur.getCp());
+        ((VueVisiteur)vue).getjTextFieldNom().setText(unVisiteur.getNom());
+        ((VueVisiteur)vue).getjTextFieldPrenom().setText(unVisiteur.getPrenom());
+        ((VueVisiteur)vue).getjTextFieldVille().setText(unVisiteur.getVille());
+        ((VueVisiteur)vue).getjTextFieldLabo().setText(unVisiteur.getCodeLabo());
+        ((VueVisiteur)vue).getjTextFieldSecteur().setText(unVisiteur.getCodeSecteur());
+    }
+    
     public void chargerDonneesVisiteur(String matricule) throws DaoException {
         
         Visiteur unVisiteur = dao.lireUnVisiteur(matricule);
@@ -62,7 +74,6 @@ public class CtrlVisiteur extends Controleur{
         ((VueVisiteur)vue).getjTextFieldVille().setText(unVisiteur.getVille());
         ((VueVisiteur)vue).getjTextFieldLabo().setText(unVisiteur.getCodeLabo());
         ((VueVisiteur)vue).getjTextFieldSecteur().setText(unVisiteur.getCodeSecteur());
-        
-    }
 
+    }
 }

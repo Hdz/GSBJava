@@ -8,7 +8,7 @@ package modele.metier;
  *
  * @author btssio
  */
-public class Visiteur {
+public class Visiteur{
     
     private String matricule;
     private String nom;
@@ -124,6 +124,11 @@ public class Visiteur {
 
     public void setCodeLabo(String codeLabo) {
         this.codeLabo = codeLabo;
+    }
+
+    @Override
+    public String toString() {
+        return "Visiteur{" + "matricule=" + matricule + ", nom=" + nom + ", prenom=" + prenom + ", adresse=" + adresse + ", cp=" + cp + ", ville=" + ville + ", dateEmbauche=" + dateEmbauche + ", codeSecteur=" + codeSecteur + ", codeLabo=" + codeLabo + ", lesComptesRendus=" + lesComptesRendus + '}';
     }
 
     

@@ -20,6 +20,7 @@ public class CtrlAccueil extends Controleur {
     private DaoOracle dao = null;
     
     private CtrlVisiteur ctrlVisiteur;
+    private CtrlRapport ctrlRapport;
 
 
     public CtrlAccueil(Controleur ctrl) {
@@ -42,6 +43,15 @@ public class CtrlAccueil extends Controleur {
             ctrlVisiteur = new CtrlVisiteur(this);
         }else{
             ctrlVisiteur.afficherVue();
+        }
+        this.cacherVue();
+    }
+    
+    public void afficherRapport() throws DaoException{
+        if (ctrlRapport == null){
+            ctrlRapport = new CtrlRapport(this);
+        }else{
+            ctrlRapport.afficherVue();
         }
         this.cacherVue();
     }

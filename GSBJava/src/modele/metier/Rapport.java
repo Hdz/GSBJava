@@ -10,22 +10,22 @@ import java.util.Calendar;
  *
  * @author btssio
  */
-class ComptesRendus {
+public class Rapport {
     
     private int num;
-    private Jour date;
+    private String date;
     private String bilan;
     private String motif;
     
-    public ComptesRendus(){
+    public Rapport(){
         this.num = 0;
-        this.date = new Jour(Calendar.getInstance().getTime().getTime());
+        this.date = "";
         this.bilan = "";
         this.motif = "";       
         
     }
 
-    public ComptesRendus(int num, Jour date, String bilan, String motif) {
+    public Rapport(int num, String date, String bilan, String motif) {
         this.num = num;
         this.date = date;
         this.bilan = bilan;
@@ -40,11 +40,11 @@ class ComptesRendus {
         this.num = num;
     }
 
-    public Jour getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Jour date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

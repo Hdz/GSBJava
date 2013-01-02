@@ -22,6 +22,7 @@ public abstract class Dao {
     private PreparedStatement pstmtLireUnRapport;
     private PreparedStatement pstmtLireUnVisiteur;
     private PreparedStatement pstmtlireTousLesVisiteurs;
+    
    
 
     public Dao(String piloteJdbc, String urlBd, String loginBd, String mdpBd) {
@@ -71,7 +72,7 @@ public abstract class Dao {
         }
     }
     
-            
+               
     public List<Visiteur> lireTousLesVisiteurs() throws DaoException{
         try {
             List<Visiteur> desVisiteurs = new ArrayList<Visiteur>();
@@ -86,6 +87,22 @@ public abstract class Dao {
         }
     }
     
+    
+    public Visiteur lireVisiteurSuivant() throws DaoException{
+        try {
+            Visiteur visiteur = null;
+            
+            ResultSet rs = pstmtLireUnVisiteur.executeQuery();
+            if (rs.next()) {
+                visiteur = chargerUnEnregistrementVisiteur(rs);
+            }
+            return visiteur;
+        } catch (SQLException ex) {
+            throw new DaoException("DAO - lireUnVisiteur : pb JDBC\n" + ex.getMessage());
+        }
+    }
+    
+    
     private Visiteur chargerUnEnregistrementVisiteur(ResultSet rs) throws DaoException {
         try {
             
@@ -99,7 +116,9 @@ public abstract class Dao {
             visiteur.setDateEmbauche(rs.getString("VIS_DATEEMBAUCHE"));
             visiteur.setCodeLabo(rs.getString("LAB_CODE"));
             visiteur.setCodeSecteur(rs.getString("SEC_CODE"));
-                        
+            
+            
+            
             return visiteur;
         } catch (SQLException ex) {
             throw new DaoException("DAO - chargerUnEnregistrementVisiteur : pb JDBC\n" + ex.getMessage());
