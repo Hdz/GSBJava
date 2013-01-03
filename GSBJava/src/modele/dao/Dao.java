@@ -3,6 +3,7 @@ package modele.dao;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import modele.metier.Rapport;
 import modele.metier.Visiteur;
 import vues.VueVisiteur;
 
@@ -22,6 +23,7 @@ public abstract class Dao {
     private PreparedStatement pstmtLireUnRapport;
     private PreparedStatement pstmtLireUnVisiteur;
     private PreparedStatement pstmtlireTousLesVisiteurs;
+    private PreparedStatement pstmtLireTousLesRapports;
     
    
 
@@ -37,11 +39,10 @@ public abstract class Dao {
             Class.forName(piloteJdbc);
             cnx = DriverManager.getConnection(urlBd, loginBd, mdpBd);
             
-            pstmtLireUnRapport = cnx.prepareStatement(
-                    "SELECT * FROM RAPPORT_VISITE WHERE VIS_MATRICULE=?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            
+            pstmtLireUnRapport = cnx.prepareStatement("SELECT * FROM RAPPORT_VISITE WHERE RAP_NUM=?");
             pstmtLireUnVisiteur = cnx.prepareStatement("SELECT * FROM VISITEUR WHERE VIS_MATRICULE=?");
             pstmtlireTousLesVisiteurs = cnx.prepareStatement("SELECT * FROM VISITEUR", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            pstmtLireTousLesRapports = cnx.prepareStatement("SELECT * FROM RAPPORT_VISITE", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
            
         } catch (SQLException ex) {
             throw new DaoException("DAO - connecter : pb de connexion\n" + ex.getMessage());
@@ -69,6 +70,20 @@ public abstract class Dao {
             return visiteur;
         } catch (SQLException ex) {
             throw new DaoException("DAO - lireUnVisiteur : pb JDBC\n" + ex.getMessage());
+        }
+    }
+    
+    public Rapport lireUnRapport(String numRapport) throws DaoException {
+        try {
+            Rapport rapport = null;
+            pstmtLireUnRapport.setString(1, numRapport);
+            ResultSet rs = pstmtLireUnRapport.executeQuery();
+            if (rs.next()) {
+                rapport = chargerUnEnregistrementRapport(rs);
+            }
+            return rapport;
+        } catch (SQLException ex) {
+            throw new DaoException("DAO - lireUnRapport : pb JDBC\n" + ex.getMessage());
         }
     }
     
@@ -122,6 +137,36 @@ public abstract class Dao {
             return visiteur;
         } catch (SQLException ex) {
             throw new DaoException("DAO - chargerUnEnregistrementVisiteur : pb JDBC\n" + ex.getMessage());
+        }
+    }
+    
+    public List<Rapport> lireTousLesRapports() throws DaoException{
+        try {
+            List<Rapport> desRapports = new ArrayList<Rapport>();
+            ResultSet rs = pstmtLireTousLesRapports.executeQuery();
+            while (rs.next()) {
+                Rapport unRapport = chargerUnEnregistrementRapport(rs);
+                desRapports.add(unRapport);
+            }            
+            return desRapports;
+        } catch (SQLException ex) {
+            throw new DaoException("DAO - lireTousLesRapports : pb JDBC\n" + ex.getMessage());
+        }
+    }
+    
+    private Rapport chargerUnEnregistrementRapport(ResultSet rs) throws DaoException {
+        try {
+            
+            Rapport rapport = new Rapport();
+            rapport.setNum(rs.getString("RAP_NUM"));
+            rapport.setBilan(rs.getString("RAP_BILAN"));
+            rapport.setDate(rs.getString("RAP_DATE"));
+            rapport.setMotif(rs.getString("RAP_MOTIF"));
+            rapport.setMatricule(rs.getString("VIS_MATRICULE"));
+            
+            return rapport;
+        } catch (SQLException ex) {
+            throw new DaoException("DAO - chargerUnEnregistrementRapport : pb JDBC\n" + ex.getMessage());
         }
     }
 }

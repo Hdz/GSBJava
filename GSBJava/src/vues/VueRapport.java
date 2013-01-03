@@ -6,7 +6,16 @@ package vues;
 
 import controleurs.Controleur;
 import controleurs.CtrlRapport;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import modele.dao.DaoException;
 
 /**
  *
@@ -14,12 +23,16 @@ import javax.swing.DefaultComboBoxModel;
  */
 public class VueRapport extends VueAbstraite {
 
+    DefaultComboBoxModel modeleJComboBoxNumRapport;
+    
     /**
      * Creates new form VueRapport
      */
     public VueRapport(Controleur ctrl) {
         super(ctrl);
-        initComponents();       
+        initComponents();
+        modeleJComboBoxNumRapport= new DefaultComboBoxModel();
+        jComboBoxNumRapport.setModel(modeleJComboBoxNumRapport);
         
     }
 
@@ -33,17 +46,17 @@ public class VueRapport extends VueAbstraite {
     private void initComponents() {
 
         jLabelNumRapport = new javax.swing.JLabel();
-        jTextFieldNumRapport = new javax.swing.JTextField();
         jLabelPraticien = new javax.swing.JLabel();
         jLabelDateRapport = new javax.swing.JLabel();
         jTextFieldDateRapport = new javax.swing.JTextField();
-        jComboBoxPraticien = new javax.swing.JComboBox();
         jLabelMotifRapport = new javax.swing.JLabel();
         jTextFieldMotifRapport = new javax.swing.JTextField();
         jLabelBilan = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextAreaBilan = new javax.swing.JTextArea();
         jButtonAnnuler = new javax.swing.JButton();
+        jComboBoxNumRapport = new javax.swing.JComboBox();
+        jTextFieldPatricien = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -52,8 +65,6 @@ public class VueRapport extends VueAbstraite {
         jLabelPraticien.setText("Praticien :");
 
         jLabelDateRapport.setText("Date du rapport :");
-
-        jComboBoxPraticien.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabelMotifRapport.setText("Motif du rapport :");
 
@@ -67,6 +78,13 @@ public class VueRapport extends VueAbstraite {
         jButtonAnnuler.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAnnulerActionPerformed(evt);
+            }
+        });
+
+        jComboBoxNumRapport.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxNumRapport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxNumRapportActionPerformed(evt);
             }
         });
 
@@ -84,13 +102,15 @@ public class VueRapport extends VueAbstraite {
                     .addComponent(jLabelNumRapport))
                 .addGap(115, 115, 115)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jTextFieldNumRapport)
-                        .addComponent(jTextFieldDateRapport)
-                        .addComponent(jComboBoxPraticien, 0, 151, Short.MAX_VALUE)
-                        .addComponent(jTextFieldMotifRapport))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(174, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jComboBoxNumRapport, javax.swing.GroupLayout.Alignment.LEADING, 0, 151, Short.MAX_VALUE)
+                            .addComponent(jTextFieldDateRapport, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldMotifRapport, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldPatricien))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonAnnuler)
@@ -101,12 +121,12 @@ public class VueRapport extends VueAbstraite {
             .addGroup(layout.createSequentialGroup()
                 .addGap(70, 70, 70)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldNumRapport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelNumRapport))
+                    .addComponent(jLabelNumRapport)
+                    .addComponent(jComboBoxNumRapport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelPraticien)
-                    .addComponent(jComboBoxPraticien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldPatricien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelDateRapport)
@@ -118,8 +138,8 @@ public class VueRapport extends VueAbstraite {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelBilan)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addComponent(jButtonAnnuler)
                 .addGap(29, 29, 29))
         );
@@ -131,10 +151,125 @@ public class VueRapport extends VueAbstraite {
         ((CtrlRapport)controleur).rapportAnnuler();
     }//GEN-LAST:event_jButtonAnnulerActionPerformed
 
+    private void jComboBoxNumRapportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxNumRapportActionPerformed
+        try {
+            
+            ((CtrlRapport)controleur).chargerDonneesRapport(jComboBoxNumRapport.getSelectedItem().toString());
+            
+        } catch (DaoException ex) {
+            Logger.getLogger(VueVisiteur.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jComboBoxNumRapportActionPerformed
+
+    public DefaultComboBoxModel getModeleJComboBoxNumRapport() {
+        return modeleJComboBoxNumRapport;
+    }
+
+    public void setModeleJComboBoxNumRapport(DefaultComboBoxModel modeleJComboBoxNumRapport) {
+        this.modeleJComboBoxNumRapport = modeleJComboBoxNumRapport;
+    }
+
+    public JButton getjButtonAnnuler() {
+        return jButtonAnnuler;
+    }
+
+    public void setjButtonAnnuler(JButton jButtonAnnuler) {
+        this.jButtonAnnuler = jButtonAnnuler;
+    }
+
+    public JComboBox getjComboBoxNumRapport() {
+        return jComboBoxNumRapport;
+    }
+
+    public void setjComboBoxNumRapport(JComboBox jComboBoxNumRapport) {
+        this.jComboBoxNumRapport = jComboBoxNumRapport;
+    }
+
+    public JTextField getjTextFieldPatricien() {
+        return jTextFieldPatricien;
+    }
+
+    public void setjTextFieldPatricien(JTextField jTextFieldPatricien) {
+        this.jTextFieldPatricien = jTextFieldPatricien;
+    }
+
+    public JLabel getjLabelBilan() {
+        return jLabelBilan;
+    }
+
+    public void setjLabelBilan(JLabel jLabelBilan) {
+        this.jLabelBilan = jLabelBilan;
+    }
+
+    public JLabel getjLabelDateRapport() {
+        return jLabelDateRapport;
+    }
+
+    public void setjLabelDateRapport(JLabel jLabelDateRapport) {
+        this.jLabelDateRapport = jLabelDateRapport;
+    }
+
+    public JLabel getjLabelMotifRapport() {
+        return jLabelMotifRapport;
+    }
+
+    public void setjLabelMotifRapport(JLabel jLabelMotifRapport) {
+        this.jLabelMotifRapport = jLabelMotifRapport;
+    }
+
+    public JLabel getjLabelNumRapport() {
+        return jLabelNumRapport;
+    }
+
+    public void setjLabelNumRapport(JLabel jLabelNumRapport) {
+        this.jLabelNumRapport = jLabelNumRapport;
+    }
+
+    public JLabel getjLabelPraticien() {
+        return jLabelPraticien;
+    }
+
+    public void setjLabelPraticien(JLabel jLabelPraticien) {
+        this.jLabelPraticien = jLabelPraticien;
+    }
+
+    public JScrollPane getjScrollPane1() {
+        return jScrollPane1;
+    }
+
+    public void setjScrollPane1(JScrollPane jScrollPane1) {
+        this.jScrollPane1 = jScrollPane1;
+    }
+
+    public JTextArea getjTextAreaBilan() {
+        return jTextAreaBilan;
+    }
+
+    public void setjTextAreaBilan(JTextArea jTextAreaBilan) {
+        this.jTextAreaBilan = jTextAreaBilan;
+    }
+
+    public JTextField getjTextFieldDateRapport() {
+        return jTextFieldDateRapport;
+    }
+
+    public void setjTextFieldDateRapport(JTextField jTextFieldDateRapport) {
+        this.jTextFieldDateRapport = jTextFieldDateRapport;
+    }
+
+    public JTextField getjTextFieldMotifRapport() {
+        return jTextFieldMotifRapport;
+    }
+
+    public void setjTextFieldMotifRapport(JTextField jTextFieldMotifRapport) {
+        this.jTextFieldMotifRapport = jTextFieldMotifRapport;
+    }
+
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAnnuler;
-    private javax.swing.JComboBox jComboBoxPraticien;
+    private javax.swing.JComboBox jComboBoxNumRapport;
     private javax.swing.JLabel jLabelBilan;
     private javax.swing.JLabel jLabelDateRapport;
     private javax.swing.JLabel jLabelMotifRapport;
@@ -144,6 +279,6 @@ public class VueRapport extends VueAbstraite {
     private javax.swing.JTextArea jTextAreaBilan;
     private javax.swing.JTextField jTextFieldDateRapport;
     private javax.swing.JTextField jTextFieldMotifRapport;
-    private javax.swing.JTextField jTextFieldNumRapport;
+    private javax.swing.JTextField jTextFieldPatricien;
     // End of variables declaration//GEN-END:variables
 }

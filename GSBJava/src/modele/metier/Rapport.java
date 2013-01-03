@@ -12,31 +12,44 @@ import java.util.Calendar;
  */
 public class Rapport {
     
-    private int num;
+    private String matricule;
+    private String num;
     private String date;
     private String bilan;
     private String motif;
     
     public Rapport(){
-        this.num = 0;
+        
+        this.matricule = "";
+        this.num = "";
         this.date = "";
         this.bilan = "";
         this.motif = "";       
         
     }
 
-    public Rapport(int num, String date, String bilan, String motif) {
+    public Rapport(String matricule, String num, String date, String bilan, String motif) {
+        this.matricule = matricule;
         this.num = num;
         this.date = date;
         this.bilan = bilan;
         this.motif = motif;
     }
 
-    public int getNum() {
+    public String getMatricule() {
+        return matricule;
+    }
+
+    public void setMatricule(String matricule) {
+        this.matricule = matricule;
+    }
+
+    
+    public String getNum() {
         return num;
     }
 
-    public void setNum(int num) {
+    public void setNum(String num) {
         this.num = num;
     }
 

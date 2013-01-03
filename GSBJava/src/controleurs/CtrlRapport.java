@@ -9,10 +9,9 @@ import javax.swing.JOptionPane;
 import modele.dao.DaoException;
 import modele.dao.DaoOracle;
 import modele.dao.Dao;
-import modele.metier.Visiteur;
+import modele.metier.Rapport;
 import vues.VueAccueil;
 import vues.VueRapport;
-import vues.VueVisiteur;
 
 /**
  *
@@ -31,6 +30,7 @@ public class CtrlRapport extends Controleur{
             // initialiser l'interface graphique
             setVue(new VueRapport(this));
             this.afficherVue();
+            chargerListeRapport();
             
         } catch (DaoException ex) {
            JOptionPane.showMessageDialog(vue, "CtrlVisiteur - instanciation - " + ex.getMessage(), "Visiteurs", JOptionPane.ERROR_MESSAGE);
@@ -44,4 +44,22 @@ public class CtrlRapport extends Controleur{
         this.cacherVue();
         
     } 
+    
+    public void chargerListeRapport() throws DaoException {
+        List<Rapport> desRapports = dao.lireTousLesRapports();
+        for (Rapport unRapport : desRapports) {
+            ((VueRapport)vue).getModeleJComboBoxNumRapport().addElement(unRapport.getNum());
+        }
+    }
+    
+    public void chargerDonneesRapport(String numRapport) throws DaoException {
+        
+        Rapport unRapport = dao.lireUnRapport(numRapport);
+        
+        ((VueRapport)vue).getjTextFieldDateRapport().setText(unRapport.getDate());
+        ((VueRapport)vue).getjTextAreaBilan().setText(unRapport.getBilan());
+        ((VueRapport)vue).getjTextFieldMotifRapport().setText(unRapport.getMotif());
+        ((VueRapport)vue).getjTextFieldPatricien().setText(unRapport.getMatricule());
+
+    }
 }
