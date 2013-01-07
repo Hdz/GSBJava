@@ -24,6 +24,7 @@ public abstract class Dao {
     private PreparedStatement pstmtLireUnVisiteur;
     private PreparedStatement pstmtlireTousLesVisiteurs;
     private PreparedStatement pstmtLireTousLesRapports;
+    private PreparedStatement pstmtAjouterUnRapport;
     
    
 
@@ -43,6 +44,8 @@ public abstract class Dao {
             pstmtLireUnVisiteur = cnx.prepareStatement("SELECT * FROM VISITEUR WHERE VIS_MATRICULE=?");
             pstmtlireTousLesVisiteurs = cnx.prepareStatement("SELECT * FROM VISITEUR", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             pstmtLireTousLesRapports = cnx.prepareStatement("SELECT * FROM RAPPORT_VISITE", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            pstmtAjouterUnRapport = cnx.prepareStatement("INSERT INTO RAPPORT_VISITE (VIS_MATRICULE, RAP_NUM, PRA_NUM, RAP_DATE, RAP_BILAN, RAP_MOTIF)"
+                    + "VALUES (?,?,?,?,?,?)");
            
         } catch (SQLException ex) {
             throw new DaoException("DAO - connecter : pb de connexion\n" + ex.getMessage());
@@ -162,11 +165,28 @@ public abstract class Dao {
             rapport.setBilan(rs.getString("RAP_BILAN"));
             rapport.setDate(rs.getString("RAP_DATE"));
             rapport.setMotif(rs.getString("RAP_MOTIF"));
-            rapport.setMatricule(rs.getString("VIS_MATRICULE"));
+            rapport.setMatricule(rs.getString("PRA_NUM"));
             
             return rapport;
         } catch (SQLException ex) {
             throw new DaoException("DAO - chargerUnEnregistrementRapport : pb JDBC\n" + ex.getMessage());
         }
     }
-}
+    
+    public int ajouterUnRapport(String matricule, Integer numRap, Integer numPra, String RapDate, String RapBilan, String RapMotif) throws DaoException {
+        try {
+            pstmtAjouterUnRapport.setString(1, matricule);
+            pstmtAjouterUnRapport.setInt(2, numRap);
+            pstmtAjouterUnRapport.setInt(3, numPra);
+            pstmtAjouterUnRapport.setString(4, RapDate);
+            pstmtAjouterUnRapport.setString(5, RapBilan);
+            pstmtAjouterUnRapport.setString(6, RapMotif);
+            int nb= pstmtAjouterUnRapport.executeUpdate();
+            return nb;
+        } catch (SQLException ex) {
+            throw new DaoException("DAO - ajouterUnRapport : pb JDBC\n" + ex.getMessage());
+        }
+    }
+    
+    
+    }

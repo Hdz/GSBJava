@@ -20,6 +20,7 @@ import vues.VueRapport;
 public class CtrlRapport extends Controleur{
     
     DaoOracle dao = null;
+    private CtrlCréerRapport ctrlCréerRapport;
     
     public CtrlRapport(Controleur ctrl) throws DaoException {
         super(ctrl);
@@ -62,4 +63,14 @@ public class CtrlRapport extends Controleur{
         ((VueRapport)vue).getjTextFieldPatricien().setText(unRapport.getMatricule());
 
     }
+    
+    public void afficherCréerRapport() throws DaoException{
+        if (ctrlCréerRapport == null){
+            ctrlCréerRapport = new CtrlCréerRapport(this);
+        }else{
+            ctrlCréerRapport.afficherVue();
+        }
+        this.cacherVue();
+    }
+    
 }

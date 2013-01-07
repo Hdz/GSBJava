@@ -47,7 +47,7 @@ public class CtrlVisiteur extends Controleur{
     public void chargerListeVisiteurs() throws DaoException {
         List<Visiteur> desVisiteurs = dao.lireTousLesVisiteurs();
         for (Visiteur unVisiteur : desVisiteurs) {
-            ((VueVisiteur)vue).getModeleJComboBoxRechercherVisiteur().addElement(unVisiteur.getMatricule());
+            ((VueVisiteur)vue).getModeleJComboBoxRechercherVisiteur().addElement(unVisiteur);
         }
     }
     

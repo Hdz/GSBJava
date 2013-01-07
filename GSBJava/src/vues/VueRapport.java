@@ -57,6 +57,9 @@ public class VueRapport extends VueAbstraite {
         jButtonAnnuler = new javax.swing.JButton();
         jComboBoxNumRapport = new javax.swing.JComboBox();
         jTextFieldPatricien = new javax.swing.JTextField();
+        jButtonPrécédent = new javax.swing.JButton();
+        jButtonSuivant = new javax.swing.JButton();
+        jButtonCréerRapport = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -88,6 +91,27 @@ public class VueRapport extends VueAbstraite {
             }
         });
 
+        jButtonPrécédent.setText("Précédent");
+        jButtonPrécédent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPrécédentActionPerformed(evt);
+            }
+        });
+
+        jButtonSuivant.setText("Suivant");
+        jButtonSuivant.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSuivantActionPerformed(evt);
+            }
+        });
+
+        jButtonCréerRapport.setText("Créer un rapport");
+        jButtonCréerRapport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCréerRapportActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -102,7 +126,7 @@ public class VueRapport extends VueAbstraite {
                     .addComponent(jLabelNumRapport))
                 .addGap(115, 115, 115)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jComboBoxNumRapport, javax.swing.GroupLayout.Alignment.LEADING, 0, 151, Short.MAX_VALUE)
@@ -112,7 +136,13 @@ public class VueRapport extends VueAbstraite {
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(42, 42, 42)
+                .addComponent(jButtonCréerRapport)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
+                .addComponent(jButtonPrécédent)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonSuivant)
+                .addGap(152, 152, 152)
                 .addComponent(jButtonAnnuler)
                 .addGap(50, 50, 50))
         );
@@ -140,7 +170,11 @@ public class VueRapport extends VueAbstraite {
                     .addComponent(jLabelBilan)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
-                .addComponent(jButtonAnnuler)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonAnnuler)
+                    .addComponent(jButtonPrécédent)
+                    .addComponent(jButtonSuivant)
+                    .addComponent(jButtonCréerRapport))
                 .addGap(29, 29, 29))
         );
 
@@ -160,6 +194,28 @@ public class VueRapport extends VueAbstraite {
             Logger.getLogger(VueVisiteur.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jComboBoxNumRapportActionPerformed
+
+    private void jButtonCréerRapportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCréerRapportActionPerformed
+        try {
+            ((CtrlRapport)controleur).afficherCréerRapport();
+        } catch (DaoException ex) {
+            Logger.getLogger(VueAccueil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButtonCréerRapportActionPerformed
+
+    private void jButtonPrécédentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPrécédentActionPerformed
+        int rang = getjComboBoxNumRapport().getSelectedIndex() - 1;
+        if (rang != -1){
+            getjComboBoxNumRapport().setSelectedIndex(rang);
+        }
+    }//GEN-LAST:event_jButtonPrécédentActionPerformed
+
+    private void jButtonSuivantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSuivantActionPerformed
+        int rang = getjComboBoxNumRapport().getSelectedIndex() + 1;
+        if (rang < getjComboBoxNumRapport().getItemCount()){
+            getjComboBoxNumRapport().setSelectedIndex(rang);
+        }
+    }//GEN-LAST:event_jButtonSuivantActionPerformed
 
     public DefaultComboBoxModel getModeleJComboBoxNumRapport() {
         return modeleJComboBoxNumRapport;
@@ -269,6 +325,9 @@ public class VueRapport extends VueAbstraite {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAnnuler;
+    private javax.swing.JButton jButtonCréerRapport;
+    private javax.swing.JButton jButtonPrécédent;
+    private javax.swing.JButton jButtonSuivant;
     private javax.swing.JComboBox jComboBoxNumRapport;
     private javax.swing.JLabel jLabelBilan;
     private javax.swing.JLabel jLabelDateRapport;

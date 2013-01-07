@@ -228,11 +228,10 @@ public class VueVisiteur extends VueAbstraite {
     }//GEN-LAST:event_jButtonAnnulerActionPerformed
 
     private void jComboBoxRechercherVisiteurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxRechercherVisiteurActionPerformed
-        
-        
+        Visiteur unVisiteur = (Visiteur)(getModeleJComboBoxRechercherVisiteur().getSelectedItem());
         try {
             
-            ((CtrlVisiteur)controleur).chargerDonneesVisiteur(jComboBoxRechercherVisiteur.getSelectedItem().toString());
+            ((CtrlVisiteur)controleur).chargerDonneesVisiteur(unVisiteur.getMatricule());
             
         } catch (DaoException ex) {
             Logger.getLogger(VueVisiteur.class.getName()).log(Level.SEVERE, null, ex);
@@ -240,15 +239,16 @@ public class VueVisiteur extends VueAbstraite {
     }//GEN-LAST:event_jComboBoxRechercherVisiteurActionPerformed
 
     private void jButtonPrecedentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPrecedentActionPerformed
-        
+        int rang = getjComboBoxRechercherVisiteur().getSelectedIndex() - 1;
+        if (rang != -1){
+            getjComboBoxRechercherVisiteur().setSelectedIndex(rang);
+        }
     }//GEN-LAST:event_jButtonPrecedentActionPerformed
 
     private void jButtonSuivantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSuivantActionPerformed
-        try {
-            ((CtrlVisiteur)controleur).chargerVisiteurSuivant();
-            
-        } catch (DaoException ex) {
-            Logger.getLogger(VueVisiteur.class.getName()).log(Level.SEVERE, null, ex);
+        int rang = getjComboBoxRechercherVisiteur().getSelectedIndex() + 1;
+        if (rang < getjComboBoxRechercherVisiteur().getItemCount()){
+            getjComboBoxRechercherVisiteur().setSelectedIndex(rang);
         }
     }//GEN-LAST:event_jButtonSuivantActionPerformed
     

@@ -128,7 +128,7 @@ public class Visiteur{
 
     @Override
     public String toString() {
-        return "Visiteur{" + "matricule=" + matricule + ", nom=" + nom + ", prenom=" + prenom + ", adresse=" + adresse + ", cp=" + cp + ", ville=" + ville + ", dateEmbauche=" + dateEmbauche + ", codeSecteur=" + codeSecteur + ", codeLabo=" + codeLabo + ", lesComptesRendus=" + lesComptesRendus + '}';
+        return matricule + " | " + nom + " " + prenom;
     }
 
     

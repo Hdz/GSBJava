@@ -21,6 +21,7 @@ public class CtrlAccueil extends Controleur {
     
     private CtrlVisiteur ctrlVisiteur;
     private CtrlRapport ctrlRapport;
+    
 
 
     public CtrlAccueil(Controleur ctrl) {
@@ -55,5 +56,6 @@ public class CtrlAccueil extends Controleur {
         }
         this.cacherVue();
     }
+    
     
 }
