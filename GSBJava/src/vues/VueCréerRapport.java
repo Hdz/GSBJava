@@ -26,9 +26,7 @@ public class VueCréerRapport extends VueAbstraite {
      */
     public VueCréerRapport(Controleur ctrl) {
         super(ctrl);
-        initComponents();
-        
-        
+        initComponents(); 
     }
 
     /**

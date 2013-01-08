@@ -3,6 +3,7 @@ package modele.dao;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import modele.metier.Labo;
 import modele.metier.Rapport;
 import modele.metier.Visiteur;
 import vues.VueVisiteur;
@@ -25,6 +26,9 @@ public abstract class Dao {
     private PreparedStatement pstmtlireTousLesVisiteurs;
     private PreparedStatement pstmtLireTousLesRapports;
     private PreparedStatement pstmtAjouterUnRapport;
+    private PreparedStatement pstmtLireNomFromCodeLabo;
+    private PreparedStatement pstmtLireLibelleFomCodeSecteur;
+    private PreparedStatement pstmtLireNomFromNum;
     
    
 
@@ -42,10 +46,14 @@ public abstract class Dao {
             
             pstmtLireUnRapport = cnx.prepareStatement("SELECT * FROM RAPPORT_VISITE WHERE RAP_NUM=?");
             pstmtLireUnVisiteur = cnx.prepareStatement("SELECT * FROM VISITEUR WHERE VIS_MATRICULE=?");
+            pstmtLireNomFromCodeLabo = cnx.prepareStatement("SELECT LAB_NOM FROM LABO WHERE LAB_CODE=?");
             pstmtlireTousLesVisiteurs = cnx.prepareStatement("SELECT * FROM VISITEUR", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             pstmtLireTousLesRapports = cnx.prepareStatement("SELECT * FROM RAPPORT_VISITE", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            pstmtLireLibelleFomCodeSecteur = cnx.prepareStatement("SELECT SEC_LIBELLE FROM SECTEUR WHERE SEC_CODE=?");
+            pstmtLireNomFromNum = cnx.prepareStatement("SELECT PRA_NOM FROM PRATICIEN WHERE PRA_NUM=?");
             pstmtAjouterUnRapport = cnx.prepareStatement("INSERT INTO RAPPORT_VISITE (VIS_MATRICULE, RAP_NUM, PRA_NUM, RAP_DATE, RAP_BILAN, RAP_MOTIF)"
                     + "VALUES (?,?,?,?,?,?)");
+            
            
         } catch (SQLException ex) {
             throw new DaoException("DAO - connecter : pb de connexion\n" + ex.getMessage());
@@ -105,18 +113,29 @@ public abstract class Dao {
         }
     }
     
-    
-    public Visiteur lireVisiteurSuivant() throws DaoException{
-        try {
-            Visiteur visiteur = null;
+    public String lireNomFromCodeLabo(String code) throws DaoException{
+        try {                    
+            pstmtLireNomFromCodeLabo.setString(1, code);
+            ResultSet rs = pstmtLireNomFromCodeLabo.executeQuery();
+            if (rs.next())
+                code = rs.getString(1);
             
-            ResultSet rs = pstmtLireUnVisiteur.executeQuery();
-            if (rs.next()) {
-                visiteur = chargerUnEnregistrementVisiteur(rs);
-            }
-            return visiteur;
+            return code;
         } catch (SQLException ex) {
-            throw new DaoException("DAO - lireUnVisiteur : pb JDBC\n" + ex.getMessage());
+            throw new DaoException("DAO - lireNomFromCodeLabo : pb JDBC\n" + ex.getMessage());
+        }
+    }
+    
+    public String lireLibelleFomCodeSecteur(String code) throws DaoException{
+        try {                    
+            pstmtLireLibelleFomCodeSecteur.setString(1, code);
+            ResultSet rs = pstmtLireLibelleFomCodeSecteur.executeQuery();
+            if (rs.next())
+                code = rs.getString(1);
+            
+            return code;
+        } catch (SQLException ex) {
+            throw new DaoException("DAO - lireLibelleFomCodeSecteur : pb JDBC\n" + ex.getMessage());
         }
     }
     
@@ -132,10 +151,8 @@ public abstract class Dao {
             visiteur.setVille(rs.getString("VIS_VILLE"));
             visiteur.setCp(rs.getString("VIS_CP"));
             visiteur.setDateEmbauche(rs.getString("VIS_DATEEMBAUCHE"));
-            visiteur.setCodeLabo(rs.getString("LAB_CODE"));
-            visiteur.setCodeSecteur(rs.getString("SEC_CODE"));
-            
-            
+            visiteur.setCodeLabo(lireNomFromCodeLabo(rs.getString("LAB_CODE")));
+            visiteur.setCodeSecteur(lireLibelleFomCodeSecteur(rs.getString("SEC_CODE")));
             
             return visiteur;
         } catch (SQLException ex) {
@@ -157,6 +174,19 @@ public abstract class Dao {
         }
     }
     
+    public String lireNomFromNum(String num) throws DaoException{
+        try {                    
+            pstmtLireNomFromNum.setString(1, num);
+            ResultSet rs = pstmtLireNomFromNum.executeQuery();
+            if (rs.next())
+                num = rs.getString(1);
+            
+            return num;
+        } catch (SQLException ex) {
+            throw new DaoException("DAO - lireNomFromNum : pb JDBC\n" + ex.getMessage());
+        }
+    }
+    
     private Rapport chargerUnEnregistrementRapport(ResultSet rs) throws DaoException {
         try {
             
@@ -165,7 +195,7 @@ public abstract class Dao {
             rapport.setBilan(rs.getString("RAP_BILAN"));
             rapport.setDate(rs.getString("RAP_DATE"));
             rapport.setMotif(rs.getString("RAP_MOTIF"));
-            rapport.setMatricule(rs.getString("PRA_NUM"));
+            rapport.setMatricule(lireNomFromNum(rs.getString("PRA_NUM")));
             
             return rapport;
         } catch (SQLException ex) {
@@ -186,7 +216,6 @@ public abstract class Dao {
         } catch (SQLException ex) {
             throw new DaoException("DAO - ajouterUnRapport : pb JDBC\n" + ex.getMessage());
         }
-    }
+    }    
     
-    
-    }
+}
