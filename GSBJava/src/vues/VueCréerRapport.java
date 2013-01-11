@@ -7,26 +7,39 @@ package vues;
 import com.toedter.calendar.JDateChooser;
 import controleurs.Controleur;
 import controleurs.CtrlCréerRapport;
+import controleurs.CtrlVisiteur;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import modele.dao.DaoException;
+import modele.metier.Praticien;
+import modele.metier.Visiteur;
 
 /**
  *
  * @author btssio
  */
 public class VueCréerRapport extends VueAbstraite {
-
+    
+    DefaultComboBoxModel modeleJComboBoxPraticien;
+    DefaultComboBoxModel modeleJComboBoxVisiteur;
+    
     /**
      * Creates new form VueCréerRapport
      */
     public VueCréerRapport(Controleur ctrl) {
         super(ctrl);
         initComponents(); 
+        modeleJComboBoxPraticien= new DefaultComboBoxModel();
+        jComboBoxPraticien.setModel(modeleJComboBoxPraticien);
+        modeleJComboBoxVisiteur= new DefaultComboBoxModel();
+        jComboBoxVisiteur.setModel(modeleJComboBoxVisiteur);
     }
 
     /**
@@ -44,10 +57,13 @@ public class VueCréerRapport extends VueAbstraite {
         jLabelDateRapport = new javax.swing.JLabel();
         jLabelPraticien = new javax.swing.JLabel();
         jLabelMotifRapport = new javax.swing.JLabel();
-        jTextAreaBilan = new javax.swing.JTextArea();
         jButtonValider = new javax.swing.JButton();
         jButtonAnnuler = new javax.swing.JButton();
         jDateChooserDateRapport = new com.toedter.calendar.JDateChooser();
+        jLabelVisiteur = new javax.swing.JLabel();
+        jComboBoxVisiteur = new javax.swing.JComboBox();
+        jComboBoxPraticien = new javax.swing.JComboBox();
+        jTextFieldBilan = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,9 +74,6 @@ public class VueCréerRapport extends VueAbstraite {
         jLabelPraticien.setText("Praticien :");
 
         jLabelMotifRapport.setText("Motif du rapport :");
-
-        jTextAreaBilan.setColumns(20);
-        jTextAreaBilan.setRows(5);
 
         jButtonValider.setText("Valider");
         jButtonValider.addActionListener(new java.awt.event.ActionListener() {
@@ -76,42 +89,56 @@ public class VueCréerRapport extends VueAbstraite {
             }
         });
 
+        jLabelVisiteur.setText("Visiteur :");
+
+        jComboBoxVisiteur.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxVisiteur.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxVisiteurActionPerformed(evt);
+            }
+        });
+
+        jComboBoxPraticien.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(108, 108, 108)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabelBilan)
-                        .addComponent(jLabelPraticien)
-                        .addComponent(jLabelDateRapport)
-                        .addComponent(jLabelMotifRapport))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(80, 80, 80)
-                        .addComponent(jButtonValider)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabelVisiteur)
+                            .addComponent(jLabelBilan)
+                            .addComponent(jLabelPraticien)
+                            .addComponent(jLabelDateRapport)
+                            .addComponent(jLabelMotifRapport))
                         .addGap(86, 86, 86)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButtonAnnuler)
-                            .addComponent(jTextFieldMotifRapport, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
-                            .addComponent(jTextFieldPatricien)
-                            .addComponent(jDateChooserDateRapport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
-                        .addComponent(jTextAreaBilan, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                            .addComponent(jComboBoxVisiteur, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextFieldMotifRapport)
+                            .addComponent(jDateChooserDateRapport, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                            .addComponent(jComboBoxPraticien, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextFieldBilan)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(188, 188, 188)
+                        .addComponent(jButtonValider)
+                        .addGap(86, 86, 86)
+                        .addComponent(jButtonAnnuler)))
+                .addContainerGap(342, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addContainerGap(45, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelVisiteur)
+                    .addComponent(jComboBoxVisiteur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelPraticien)
-                    .addComponent(jTextFieldPatricien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxPraticien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelDateRapport)
@@ -120,11 +147,11 @@ public class VueCréerRapport extends VueAbstraite {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldMotifRapport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelMotifRapport))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextAreaBilan, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelBilan))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelBilan)
+                    .addComponent(jTextFieldBilan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(116, 116, 116)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonValider)
                     .addComponent(jButtonAnnuler))
@@ -135,16 +162,43 @@ public class VueCréerRapport extends VueAbstraite {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonValiderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonValiderActionPerformed
+      
+            Visiteur unVisiteur = (Visiteur)(getModeleJComboBoxVisiteur().getSelectedItem());
+            String matricule = unVisiteur.getMatricule();
+            
+            Praticien unPraticien = (Praticien)(getModeleJComboBoxPraticien().getSelectedItem());
+            Integer numPra = Integer.parseInt(unPraticien.getNumero());
+            
+            java.util.Date dateJava = getjDateChooserDateRapport().getDate();;
+            java.sql.Date dateRap = new java.sql.Date(dateJava.getTime());
+
+            String bilanRap = getjTextFieldBilan().getText();
+            String motifRap = getjTextFieldMotifRapport().getText();
+          
+            Integer numRap = null;
         try {
-            ((CtrlCréerRapport)controleur).enregistrerRapport();
+            numRap = ((CtrlCréerRapport)controleur).ajouterNumRap();
         } catch (DaoException ex) {
             Logger.getLogger(VueCréerRapport.class.getName()).log(Level.SEVERE, null, ex);
         }
+        try {
+            ((CtrlCréerRapport)controleur).enregistrerRapport(matricule, numRap, numPra, dateRap, bilanRap, motifRap);
+        } catch (DaoException ex) {
+            Logger.getLogger(VueCréerRapport.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+       
     }//GEN-LAST:event_jButtonValiderActionPerformed
 
     private void jButtonAnnulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnnulerActionPerformed
         ((CtrlCréerRapport)controleur).rapportAnnuler();
     }//GEN-LAST:event_jButtonAnnulerActionPerformed
+
+    private void jComboBoxVisiteurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxVisiteurActionPerformed
+        Visiteur unVisiteur = (Visiteur)(getModeleJComboBoxVisiteur().getSelectedItem());
+        
+        
+    }//GEN-LAST:event_jComboBoxVisiteurActionPerformed
 
     public JButton getjButtonAnnuler() {
         return jButtonAnnuler;
@@ -202,13 +256,15 @@ public class VueCréerRapport extends VueAbstraite {
         this.jLabelPraticien = jLabelPraticien;
     }
 
-    public JTextArea getjTextAreaBilan() {
-        return jTextAreaBilan;
+    public JTextField getjTextFieldBilan() {
+        return jTextFieldBilan;
     }
 
-    public void setjTextAreaBilan(JTextArea jTextAreaBilan) {
-        this.jTextAreaBilan = jTextAreaBilan;
+    public void setjTextFieldBilan(JTextField jTextFieldBilan) {
+        this.jTextFieldBilan = jTextFieldBilan;
     }
+
+    
 
     public JTextField getjTextFieldMotifRapport() {
         return jTextFieldMotifRapport;
@@ -226,17 +282,60 @@ public class VueCréerRapport extends VueAbstraite {
         this.jTextFieldPatricien = jTextFieldPatricien;
     }
 
+    public DefaultComboBoxModel getModeleJComboBoxPraticien() {
+        return modeleJComboBoxPraticien;
+    }
+
+    public void setModeleJComboBoxPraticien(DefaultComboBoxModel modeleJComboBoxPraticien) {
+        this.modeleJComboBoxPraticien = modeleJComboBoxPraticien;
+    }
+
+    public DefaultComboBoxModel getModeleJComboBoxVisiteur() {
+        return modeleJComboBoxVisiteur;
+    }
+
+    public void setModeleJComboBoxVisiteur(DefaultComboBoxModel modeleJComboBoxVisiteur) {
+        this.modeleJComboBoxVisiteur = modeleJComboBoxVisiteur;
+    }
+
+    public JComboBox getjComboBoxPraticien() {
+        return jComboBoxPraticien;
+    }
+
+    public void setjComboBoxPraticien(JComboBox jComboBoxPraticien) {
+        this.jComboBoxPraticien = jComboBoxPraticien;
+    }
+
+    public JComboBox getjComboBoxVisiteur() {
+        return jComboBoxVisiteur;
+    }
+
+    public void setjComboBoxVisiteur(JComboBox jComboBoxVisiteur) {
+        this.jComboBoxVisiteur = jComboBoxVisiteur;
+    }
+
+    public JLabel getjLabelVisiteur() {
+        return jLabelVisiteur;
+    }
+
+    public void setjLabelVisiteur(JLabel jLabelVisiteur) {
+        this.jLabelVisiteur = jLabelVisiteur;
+    }
+
     
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAnnuler;
     private javax.swing.JButton jButtonValider;
+    private javax.swing.JComboBox jComboBoxPraticien;
+    private javax.swing.JComboBox jComboBoxVisiteur;
     private com.toedter.calendar.JDateChooser jDateChooserDateRapport;
     private javax.swing.JLabel jLabelBilan;
     private javax.swing.JLabel jLabelDateRapport;
     private javax.swing.JLabel jLabelMotifRapport;
     private javax.swing.JLabel jLabelPraticien;
-    private javax.swing.JTextArea jTextAreaBilan;
+    private javax.swing.JLabel jLabelVisiteur;
+    private javax.swing.JTextField jTextFieldBilan;
     private javax.swing.JTextField jTextFieldMotifRapport;
     private javax.swing.JTextField jTextFieldPatricien;
     // End of variables declaration//GEN-END:variables

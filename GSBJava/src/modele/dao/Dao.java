@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import modele.metier.Labo;
+import modele.metier.Praticien;
 import modele.metier.Rapport;
 import modele.metier.Visiteur;
 import vues.VueVisiteur;
@@ -29,6 +30,9 @@ public abstract class Dao {
     private PreparedStatement pstmtLireNomFromCodeLabo;
     private PreparedStatement pstmtLireLibelleFomCodeSecteur;
     private PreparedStatement pstmtLireNomFromNum;
+    private PreparedStatement pstmtLireNomFromMatriculeVisiteur;
+    private PreparedStatement pstmtLireTousLesPraticiens;
+    private PreparedStatement pstmtRecupererDernierNumRap;
     
    
 
@@ -51,8 +55,11 @@ public abstract class Dao {
             pstmtLireTousLesRapports = cnx.prepareStatement("SELECT * FROM RAPPORT_VISITE", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             pstmtLireLibelleFomCodeSecteur = cnx.prepareStatement("SELECT SEC_LIBELLE FROM SECTEUR WHERE SEC_CODE=?");
             pstmtLireNomFromNum = cnx.prepareStatement("SELECT PRA_NOM FROM PRATICIEN WHERE PRA_NUM=?");
+            pstmtLireNomFromMatriculeVisiteur = cnx.prepareStatement("SELECT VIS_NOM FROM VISITEUR WHERE VIS_MATRICULE =?");
             pstmtAjouterUnRapport = cnx.prepareStatement("INSERT INTO RAPPORT_VISITE (VIS_MATRICULE, RAP_NUM, PRA_NUM, RAP_DATE, RAP_BILAN, RAP_MOTIF)"
                     + "VALUES (?,?,?,?,?,?)");
+            pstmtLireTousLesPraticiens = cnx.prepareStatement("SELECT * FROM PRATICIEN", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            pstmtRecupererDernierNumRap = cnx.prepareStatement("SELECT max(RAP_NUM) FROM RAPPORT_VISITE");
             
            
         } catch (SQLException ex) {
@@ -113,6 +120,20 @@ public abstract class Dao {
         }
     }
     
+    public List<Praticien> lireTousLesPraticiens() throws DaoException{
+        try {
+            List<Praticien> desPraticiens = new ArrayList<Praticien>();
+            ResultSet rs = pstmtLireTousLesPraticiens.executeQuery();
+            while (rs.next()) {
+                Praticien unPraticien = chargerUnEnregistrementPraticien(rs);
+                desPraticiens.add(unPraticien);
+            }            
+            return desPraticiens;
+        } catch (SQLException ex) {
+            throw new DaoException("DAO - lireTousLesVisiteurs : pb JDBC\n" + ex.getMessage());
+        }
+    }
+    
     public String lireNomFromCodeLabo(String code) throws DaoException{
         try {                    
             pstmtLireNomFromCodeLabo.setString(1, code);
@@ -160,6 +181,20 @@ public abstract class Dao {
         }
     }
     
+    private Praticien chargerUnEnregistrementPraticien(ResultSet rs) throws DaoException {
+        try {
+            
+            Praticien praticien = new Praticien();
+            praticien.setNumero(rs.getString("PRA_NUM"));
+            praticien.setNom(rs.getString("PRA_NOM"));
+            praticien.setPrenom(rs.getString("PRA_PRENOM"));
+            
+            return praticien;
+        } catch (SQLException ex) {
+            throw new DaoException("DAO - chargerUnEnregistrementPraticien : pb JDBC\n" + ex.getMessage());
+        }
+    }
+    
     public List<Rapport> lireTousLesRapports() throws DaoException{
         try {
             List<Rapport> desRapports = new ArrayList<Rapport>();
@@ -187,6 +222,19 @@ public abstract class Dao {
         }
     }
     
+    public String lireNomFromMatriculeVisiteur(String matricule) throws DaoException{
+        try {                    
+            pstmtLireNomFromMatriculeVisiteur.setString(1, matricule);
+            ResultSet rs = pstmtLireNomFromMatriculeVisiteur.executeQuery();
+            if (rs.next())
+                matricule = rs.getString(1);
+            
+            return matricule;
+        } catch (SQLException ex) {
+            throw new DaoException("DAO - lireNomFromMatriculeVisiteur : pb JDBC\n" + ex.getMessage());
+        }
+    }
+    
     private Rapport chargerUnEnregistrementRapport(ResultSet rs) throws DaoException {
         try {
             
@@ -196,6 +244,7 @@ public abstract class Dao {
             rapport.setDate(rs.getString("RAP_DATE"));
             rapport.setMotif(rs.getString("RAP_MOTIF"));
             rapport.setMatricule(lireNomFromNum(rs.getString("PRA_NUM")));
+            rapport.setVisiteur(lireNomFromMatriculeVisiteur(rs.getString("VIS_MATRICULE")));
             
             return rapport;
         } catch (SQLException ex) {
@@ -203,12 +252,13 @@ public abstract class Dao {
         }
     }
     
-    public int ajouterUnRapport(String matricule, Integer numRap, Integer numPra, String RapDate, String RapBilan, String RapMotif) throws DaoException {
+    public int ajouterUnRapport(String matricule, Integer numRap, Integer numPra, Date RapDate, String RapBilan, String RapMotif) throws DaoException {
         try {
+            java.sql.Date date = new java.sql.Date(RapDate.getTime());
             pstmtAjouterUnRapport.setString(1, matricule);
             pstmtAjouterUnRapport.setInt(2, numRap);
             pstmtAjouterUnRapport.setInt(3, numPra);
-            pstmtAjouterUnRapport.setString(4, RapDate);
+            pstmtAjouterUnRapport.setDate(4, date);
             pstmtAjouterUnRapport.setString(5, RapBilan);
             pstmtAjouterUnRapport.setString(6, RapMotif);
             int nb= pstmtAjouterUnRapport.executeUpdate();
@@ -216,6 +266,20 @@ public abstract class Dao {
         } catch (SQLException ex) {
             throw new DaoException("DAO - ajouterUnRapport : pb JDBC\n" + ex.getMessage());
         }
-    }    
+    }  
+    
+    public String recupererDernierNumRap() throws DaoException{
+        try {                    
+            ResultSet rs = pstmtRecupererDernierNumRap.executeQuery();
+            String num = null;
+            if (rs.next()) {
+                num = rs.getString(1);
+            }
+            
+            return num;
+        } catch (SQLException ex) {
+            throw new DaoException("DAO - recupererDernierNumRap : pb JDBC\n" + ex.getMessage());
+        }
+    }
     
 }

@@ -13,6 +13,7 @@ import java.util.Calendar;
 public class Rapport {
     
     private String matricule;
+    private String visiteur;
     private String num;
     private String date;
     private String bilan;
@@ -28,7 +29,8 @@ public class Rapport {
         
     }
 
-    public Rapport(String matricule, String num, String date, String bilan, String motif) {
+    public Rapport(String matricule, String visiteur, String num, String date, String bilan, String motif) {
+        this.visiteur = visiteur;
         this.matricule = matricule;
         this.num = num;
         this.date = date;
@@ -75,6 +77,14 @@ public class Rapport {
 
     public void setMotif(String motif) {
         this.motif = motif;
+    }
+
+    public String getVisiteur() {
+        return visiteur;
+    }
+
+    public void setVisiteur(String visiteur) {
+        this.visiteur = visiteur;
     }
     
     

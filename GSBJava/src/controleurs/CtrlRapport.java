@@ -57,6 +57,7 @@ public class CtrlRapport extends Controleur{
         
         Rapport unRapport = dao.lireUnRapport(numRapport);
         
+        ((VueRapport)vue).getjTextFieldVisiteur().setText(unRapport.getVisiteur());
         ((VueRapport)vue).getjTextFieldDateRapport().setText(unRapport.getDate());
         ((VueRapport)vue).getjTextAreaBilan().setText(unRapport.getBilan());
         ((VueRapport)vue).getjTextFieldMotifRapport().setText(unRapport.getMotif());
