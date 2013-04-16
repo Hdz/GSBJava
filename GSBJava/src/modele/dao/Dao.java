@@ -213,10 +213,11 @@ public abstract class Dao {
         try {                    
             pstmtLireNomFromNum.setString(1, num);
             ResultSet rs = pstmtLireNomFromNum.executeQuery();
+            String nom = null;
             if (rs.next())
-                num = rs.getString(1);
+                nom = rs.getString(1);
             
-            return num;
+            return nom;
         } catch (SQLException ex) {
             throw new DaoException("DAO - lireNomFromNum : pb JDBC\n" + ex.getMessage());
         }

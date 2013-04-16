@@ -165,7 +165,7 @@ public class VueCréerRapport extends VueAbstraite {
       
             Visiteur unVisiteur = (Visiteur)(getModeleJComboBoxVisiteur().getSelectedItem());
             String matricule = unVisiteur.getMatricule();
-            
+                       
             Praticien unPraticien = (Praticien)(getModeleJComboBoxPraticien().getSelectedItem());
             Integer numPra = Integer.parseInt(unPraticien.getNumero());
             
